@@ -73,6 +73,15 @@ const FoodTile = styled(Tile)`
   opacity: 1;
 `;
 
+interface SnakeTileProps extends TileProps {
+  readonly alpha: number;
+}
+
+const SnakeTile = styled(Tile)<SnakeTileProps>`
+  background-color: rgba(255, 255, 255, ${props => props.alpha});
+  opacity: 1;
+`;
+
 export const App: React.FC = () => {
   const score = 0;
 
@@ -95,19 +104,31 @@ export const App: React.FC = () => {
 
   const x = Math.floor(Math.random() * columns);
   const y = Math.floor(Math.random() * rows);
-  board[y][x] = 1;
+  board[y][x] = -1;
+
+  board[5][5] = 1;
+  board[5][6] = 2;
+  board[5][7] = 3;
 
   const tiles = board.flatMap((row, y) =>
     row.map((val, x) => {
-      let tile = val === 1 ? FoodTile : Tile;
-      return React.createElement(tile, {
+      const props = {
         size: tileSize - 1,
         key: `${x}:${y}`,
         style: {
           left: x * tileSize,
           top: y * tileSize
-        }
-      });
+        },
+        alpha: 1.0
+      };
+      let tile = Tile;
+      if (val === -1) {
+        tile = FoodTile;
+      } else if (val > 0) {
+        tile = SnakeTile;
+        props.alpha = 1 / val;
+      }
+      return React.createElement(tile, props);
     })
   );
 
