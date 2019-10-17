@@ -55,6 +55,13 @@ const Tile = styled.div<TileProps>`
   }
 `;
 
+const FoodTile = styled(Tile)`
+  //transform: translateZ(0px) scale(0.874489);
+  background-color: rgb(119, 255, 51);
+  //box-shadow: rgb(119, 255, 51) 0px 0px 22.4196px;
+  opacity: 1;
+`;
+
 export const App: React.FC = () => {
   const score = 0;
 
@@ -71,19 +78,26 @@ export const App: React.FC = () => {
     tileSize = boardRatio > 1 ? Math.floor(stageHeight / rows) : Math.floor(stageHeight / columns);
   }
 
-  const board: number[][] = Array(rows).fill(Array(columns).fill(0));
+  const board: number[][] = Array(rows)
+    .fill(0)
+    .map(() => Array(columns).fill(0));
+
+  let x = Math.floor(Math.random() * columns);
+  let y = Math.floor(Math.random() * rows);
+  board[y][x] = 1;
 
   const tiles = board.flatMap((row, y) =>
-    row.map((_, x) => (
-      <Tile
-        size={tileSize - 1}
-        key={`${x}:${y}`}
-        style={{
+    row.map((val, x) => {
+      let tile = val === 1 ? FoodTile : Tile;
+      return React.createElement(tile, {
+        size: tileSize - 1,
+        key: `${x}:${y}`,
+        style: {
           left: x * tileSize,
           top: y * tileSize
-        }}
-      />
-    ))
+        }
+      });
+    })
   );
 
   return (
