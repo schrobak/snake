@@ -85,8 +85,8 @@ const SnakeTile = styled(Tile)<SnakeTileProps>`
 export const App: React.FC = () => {
   const score = 0;
 
-  const rows = 10;
-  const columns = 15;
+  const rows = 20;
+  const columns = 30;
   const boardRatio = columns / rows;
 
   const stageWidth = Math.floor(window.innerWidth * 0.8);
