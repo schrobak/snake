@@ -1,5 +1,20 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const flashing = (shadowSize: number) => keyframes`
+  from {
+    transform: scale(1.0);
+    box-shadow: #77FF33 0 0 ${shadowSize}px;
+  }
+  50% {
+    transform: scale(0.5);
+    box-shadow: #77FF33 0 0 ${shadowSize / 3}px;
+  }
+  to {
+    transform: scale(1.0);
+    box-shadow: #77FF33 0 0 ${shadowSize}px;
+  }
+`;
 
 const Score = styled.div`
   color: rgba(255, 255, 255, 0.5);
@@ -33,9 +48,6 @@ interface TileProps {
 const Tile = styled.div<TileProps>`
   background: rgba(0, 0, 0, 0.15);
   position: absolute;
-  transition-property: background, box-shadow, opacity, transform;
-  transform: translateZ(0);
-  transition-duration: 3000ms;
 
   width: ${props => props.size}px;
   height: ${props => props.size}px;
@@ -56,9 +68,8 @@ const Tile = styled.div<TileProps>`
 `;
 
 const FoodTile = styled(Tile)`
-  //transform: translateZ(0px) scale(0.874489);
-  background-color: rgb(119, 255, 51);
-  //box-shadow: rgb(119, 255, 51) 0px 0px 22.4196px;
+  animation: ${props => flashing(props.size)} 1500ms ease-in-out infinite;
+  background-color: #77ff33;
   opacity: 1;
 `;
 
@@ -82,8 +93,8 @@ export const App: React.FC = () => {
     .fill(0)
     .map(() => Array(columns).fill(0));
 
-  let x = Math.floor(Math.random() * columns);
-  let y = Math.floor(Math.random() * rows);
+  const x = Math.floor(Math.random() * columns);
+  const y = Math.floor(Math.random() * rows);
   board[y][x] = 1;
 
   const tiles = board.flatMap((row, y) =>
