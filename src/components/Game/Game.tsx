@@ -1,7 +1,7 @@
 import React from "react";
-import { useWindowSize } from "../../hooks";
-import { Food, PositionTuple } from "../Food";
-import { Stage, Board, Tile } from "../Stage";
+import { useWindowSize } from "hooks";
+import { Food, PositionTuple } from "components/Food";
+import { Stage, Board, Tile } from "components/Stage";
 
 export const Game: React.FC = () => {
   const rows = 20;
