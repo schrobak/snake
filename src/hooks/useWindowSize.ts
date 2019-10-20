@@ -12,9 +12,7 @@ export const useWindowSize = (): WindowSizeTuple => {
       setHeight(window.innerHeight);
     };
     window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return [width, height];

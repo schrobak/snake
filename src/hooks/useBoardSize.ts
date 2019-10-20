@@ -19,9 +19,7 @@ export const useBoardSize = (): BoardSize => {
       setBoardSize(getBoardSize(url.hash));
     };
     window.addEventListener("hashchange", handleHashChange);
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-    };
+    return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
   return boardSize;
