@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import useWindowSize from "../hooks/useWindowSize";
 
 const flashing = (shadowSize: number) => keyframes`
   from {
@@ -83,8 +84,9 @@ export const App: React.FC = () => {
   const rows = 20;
   const columns = 30;
 
-  const stageWidth = Math.floor(window.innerWidth * 0.9);
-  const stageHeight = Math.floor(window.innerHeight * 0.9);
+  const [windowWidth, windowHeight] = useWindowSize();
+  const stageWidth = Math.floor(windowWidth * 0.9);
+  const stageHeight = Math.floor(windowHeight * 0.9);
 
   const tileSize = Math.min(
     Math.floor(stageWidth / columns),
