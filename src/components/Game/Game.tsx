@@ -1,6 +1,7 @@
 import React from "react";
 import { useBoardSize, useTileSize } from "hooks";
 import { Food } from "components/Food";
+import { Snake } from "components/Snake";
 import { Stage, Board, Tile } from "components/Stage";
 
 export const Game: React.FC = () => {
@@ -15,6 +16,7 @@ export const Game: React.FC = () => {
       <Board rows={rows} columns={columns} tileSize={tileSize}>
         {tiles}
         <Food />
+        <Snake />
       </Board>
     </Stage>
   );

@@ -1,4 +1,4 @@
-import { createGlobalStyle, keyframes } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
 
 export const GlobalStyle = createGlobalStyle`
@@ -23,20 +23,5 @@ export const GlobalStyle = createGlobalStyle`
     color: #fff;
     font: 100%/1.5 sans-serif;
     overflow: hidden;
-  }
-`;
-
-export const flashing = (shadowSize: number) => keyframes`
-  from {
-    transform: scale(1.0);
-    box-shadow: #77FF33 0 0 ${shadowSize}px;
-  }
-  50% {
-    transform: scale(0.5);
-    box-shadow: #77FF33 0 0 ${shadowSize / 3}px;
-  }
-  to {
-    transform: scale(1.0);
-    box-shadow: #77FF33 0 0 ${shadowSize}px;
   }
 `;

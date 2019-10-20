@@ -1,0 +1,43 @@
+import styled, { keyframes } from "styled-components";
+import { Tile, TileProps } from "components/Stage";
+import React from "react";
+import { useSnakePosition, useTileSize } from "hooks";
+
+export const snakeHeadKeyframes = ({ size }: TileProps) => keyframes`
+  from {
+    box-shadow: #fff 0 0 ${size}px;
+  }
+  50% {
+    box-shadow: #fff 0 0 ${size / 3}px;
+  }
+  to {
+    box-shadow: #fff 0 0 ${size}px;
+  }
+`;
+
+const SnakeTile = styled(Tile)`
+  position: absolute;
+  background: #fff;
+`;
+
+const SnakeHeadTile = styled(SnakeTile)`
+  animation: ${snakeHeadKeyframes} 1s ease-in-out infinite;
+`;
+
+export const Snake: React.FC = () => {
+  const [x, y] = useSnakePosition();
+  const size = useTileSize();
+
+  const left = size * x + x;
+  const top = size * y + y;
+
+  return (
+    <SnakeHeadTile
+      size={size}
+      style={{
+        left,
+        top
+      }}
+    />
+  );
+};
