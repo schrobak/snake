@@ -19,5 +19,3 @@ export const useWindowSize = (): WindowSizeTuple => {
 
   return [width, height];
 };
-
-export default useWindowSize;

@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { App } from "./App";
+import { Game } from "./Game";
 import { GlobalStyle } from "./styles";
 import * as serviceWorker from "./serviceWorker";
 
 const Root = () => (
   <>
     <GlobalStyle />
-    <App />
+    <Game />
   </>
 );
 
