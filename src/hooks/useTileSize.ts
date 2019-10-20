@@ -1,9 +1,11 @@
 import { useWindowSize } from "./useWindowSize";
 import { useEffect, useState } from "react";
+import { useBoardSize } from "./useBoardSize";
 
-export const useTileSize = (rows: number, columns: number): number => {
-  const [tileSize, setTileSize] = useState(0);
+export const useTileSize = (): number => {
+  const [rows, columns] = useBoardSize();
   const [windowWidth, windowHeight] = useWindowSize();
+  const [tileSize, setTileSize] = useState(0);
 
   useEffect(() => {
     const stageWidth = Math.floor(windowWidth * 0.9);

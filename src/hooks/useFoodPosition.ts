@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { PositionTuple } from "types";
+import { useBoardSize } from "./useBoardSize";
 
-export const useFoodPosition = (rows: number, columns: number): PositionTuple => {
+export const useFoodPosition = (): PositionTuple => {
+  const [rows, columns] = useBoardSize();
   const [position, setPosition] = useState<PositionTuple>([0, 0]);
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { flashing } from "styles";
 import { Tile } from "components/Stage";
-import { PositionTuple } from "types";
+import { useFoodPosition, useTileSize } from "hooks";
 
 const FoodTile = styled(Tile)`
   position: absolute;
@@ -10,13 +10,10 @@ const FoodTile = styled(Tile)`
   background: #77ff33;
 `;
 
-export interface FoodProps {
-  readonly size: number;
-  readonly position: PositionTuple;
-}
+export const Food: React.FC = () => {
+  const [x, y] = useFoodPosition();
+  const size = useTileSize();
 
-export const Food: React.FC<FoodProps> = ({ size, position }) => {
-  const [x, y] = position;
   const left = size * x + x;
   const top = size * y + y;
 
