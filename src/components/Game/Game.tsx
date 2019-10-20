@@ -1,5 +1,5 @@
 import React from "react";
-import { useWindowSize } from "../hooks";
+import { useWindowSize } from "../../hooks";
 import { Food, PositionTuple } from "../Food";
 import { Stage, Board, Tile } from "../Stage";
 

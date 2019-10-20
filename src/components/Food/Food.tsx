@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { flashing } from "../styles";
+import { flashing } from "../../styles";
 import { Tile } from "../Stage";
 
 const FoodTile = styled(Tile)`
