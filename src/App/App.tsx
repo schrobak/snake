@@ -16,29 +16,29 @@ const flashing = (shadowSize: number) => keyframes`
   }
 `;
 
-const Score = styled.div`
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 16px;
-  font-weight: bold;
-  padding-top: 5px;
-  text-align: center;
+const Stage = styled.div`
+  align-content: center;
+  justify-content: center;
+  display: grid;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 `;
 
 interface BoardProps {
-  readonly width: number;
-  readonly height: number;
+  readonly rows: number;
+  readonly columns: number;
+  readonly tileSize: number;
 }
 
 const Board = styled.div<BoardProps>`
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 2;
-  width: ${props => props.width}px;
-  height: ${props => props.height}px;
+  width: ${({ columns, tileSize }) => columns * tileSize + (tileSize - 1)}px;
+  height: ${({ rows, tileSize }) => rows * tileSize + (tileSize - 1)}px;
+  position: relative;
+  display: grid;
+  grid-template-rows: repeat(${props => props.rows}, ${props => props.tileSize}px);
+  grid-template-columns: repeat(${props => props.columns}, ${props => props.tileSize}px);
+  grid-gap: 1px;
 `;
 
 interface TileProps {
@@ -47,11 +47,8 @@ interface TileProps {
 
 const Tile = styled.div<TileProps>`
   background: rgba(0, 0, 0, 0.15);
-  position: absolute;
-
   width: ${props => props.size}px;
   height: ${props => props.size}px;
-
   ::before {
     bottom: 0;
     content: "";
@@ -83,61 +80,28 @@ const SnakeTile = styled(Tile)<SnakeTileProps>`
 `;
 
 export const App: React.FC = () => {
-  const score = 0;
-
   const rows = 20;
   const columns = 30;
-  const boardRatio = columns / rows;
 
-  const stageWidth = Math.floor(window.innerWidth * 0.8);
-  const stageHeight = Math.floor(window.innerHeight * 0.8);
-  const stageRatio = stageWidth / stageHeight;
+  const stageWidth = Math.floor(window.innerWidth * 0.9);
+  const stageHeight = Math.floor(window.innerHeight * 0.9);
 
-  let tileSize = boardRatio > 1 ? Math.floor(stageWidth / columns) : Math.floor(stageWidth / rows);
-  if (stageRatio > 1) {
-    tileSize = boardRatio > 1 ? Math.floor(stageHeight / rows) : Math.floor(stageHeight / columns);
-  }
-
-  const board: number[][] = Array(rows)
-    .fill(0)
-    .map(() => Array(columns).fill(0));
-
-  const x = Math.floor(Math.random() * columns);
-  const y = Math.floor(Math.random() * rows);
-  board[y][x] = -1;
-
-  board[5][5] = 1;
-  board[5][6] = 2;
-  board[5][7] = 3;
-
-  const tiles = board.flatMap((row, y) =>
-    row.map((val, x) => {
-      const props = {
-        size: tileSize - 1,
-        key: `${x}:${y}`,
-        style: {
-          left: x * tileSize,
-          top: y * tileSize
-        },
-        alpha: 1.0
-      };
-      let tile = Tile;
-      if (val === -1) {
-        tile = FoodTile;
-      } else if (val > 0) {
-        tile = SnakeTile;
-        props.alpha = 1 / val;
-      }
-      return React.createElement(tile, props);
-    })
+  const tileSize = Math.min(
+    Math.floor(stageWidth / columns),
+    Math.floor(stageWidth / rows),
+    Math.floor(stageHeight / columns),
+    Math.floor(stageHeight / rows)
   );
 
+  const tiles = Array(rows * columns)
+    .fill(0)
+    .map((_, idx) => <Tile key={idx} size={tileSize} />);
+
   return (
-    <>
-      <Score>{score}</Score>
-      <Board width={columns * tileSize} height={rows * tileSize}>
+    <Stage>
+      <Board rows={rows} columns={columns} tileSize={tileSize}>
         {tiles}
       </Board>
-    </>
+    </Stage>
   );
 };
