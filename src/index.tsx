@@ -1,15 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
 
-import { Game } from "./Game";
-import { GlobalStyle } from "./styles";
+import { Game } from "components/Game";
+import { GlobalStyle } from "styles";
+import { rootReducer } from "store";
+
 import * as serviceWorker from "./serviceWorker";
 
+const store = createStore(rootReducer);
+
 const Root = () => (
-  <>
+  <Provider store={store}>
     <GlobalStyle />
     <Game />
-  </>
+  </Provider>
 );
 
 ReactDOM.render(<Root />, document.getElementById("root"));
