@@ -1,6 +1,6 @@
 import React from "react";
 import { useWindowSize } from "../hooks";
-import { Food } from "../Food";
+import { Food, PositionTuple } from "../Food";
 import { Stage, Board, Tile } from "../Stage";
 
 export const Game: React.FC = () => {
@@ -22,11 +22,13 @@ export const Game: React.FC = () => {
     .fill(0)
     .map((_, idx) => <Tile key={idx} size={tileSize} />);
 
+  const position: PositionTuple = [Math.floor(Math.random() * columns), Math.floor(Math.random() * rows)];
+
   return (
     <Stage>
       <Board rows={rows} columns={columns} tileSize={tileSize}>
         {tiles}
-        <Food size={tileSize} position={[2, 6]} />
+        <Food size={tileSize} position={position} />
       </Board>
     </Stage>
   );

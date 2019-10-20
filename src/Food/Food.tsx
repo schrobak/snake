@@ -9,11 +9,25 @@ const FoodTile = styled(Tile)`
   background: #77ff33;
 `;
 
+export type PositionTuple = [number, number];
+
 export interface FoodProps {
   readonly size: number;
-  readonly position: [number, number];
+  readonly position: PositionTuple;
 }
 
 export const Food: React.FC<FoodProps> = ({ size, position }) => {
-  return <FoodTile size={size} />;
+  const [x, y] = position;
+  const left = size * x + x;
+  const top = size * y + y;
+
+  return (
+    <FoodTile
+      size={size}
+      style={{
+        left,
+        top
+      }}
+    />
+  );
 };
