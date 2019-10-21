@@ -1,12 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+
 import { PositionTuple } from "types";
+import { getRandomPosition } from "utils";
+
 import { useBoardSize } from "./useBoardSize";
 import { SnakeDirection, useSnakeDirection } from "./useSnakeDirection";
-
-export const getRandomPosition = (rows: number, columns: number): PositionTuple => [
-  Math.floor(Math.random() * columns),
-  Math.floor(Math.random() * rows)
-];
 
 export const useSnakePosition = (): PositionTuple => {
   const [rows, columns] = useBoardSize();
