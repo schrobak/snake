@@ -6,4 +6,5 @@ export const rootReducer = combineReducers({
   board: boardReducer
 });
 
+export * from "./board/types";
 export type GameState = ReturnType<typeof rootReducer>;

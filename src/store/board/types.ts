@@ -1,4 +1,4 @@
-import { BoardSize } from "types";
+export type BoardSize = [number, number];
 
 export interface BoardState {
   rows: number;

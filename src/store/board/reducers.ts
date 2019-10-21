@@ -1,8 +1,12 @@
+import { getBoardSize } from "utils";
+
 import { BoardActionTypes, BoardState } from "./types";
 
+const [initialRows, initialColumns] = getBoardSize(window.location.hash);
+
 const initialState: BoardState = {
-  rows: 0,
-  columns: 0
+  rows: initialRows,
+  columns: initialColumns
 };
 
 export const boardReducer = (state = initialState, action: BoardActionTypes): BoardState => {

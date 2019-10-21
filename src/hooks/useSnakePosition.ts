@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
 import { PositionTuple } from "types";
+import { GameState, BoardSize } from "store";
 import { getRandomPosition } from "utils";
 
-import { useBoardSize } from "./useBoardSize";
 import { SnakeDirection, useSnakeDirection } from "./useSnakeDirection";
 
 export const useSnakePosition = (): PositionTuple => {
-  const [rows, columns] = useBoardSize();
+  const [rows, columns] = useSelector<GameState, BoardSize>(({ board }) => [board.rows, board.columns]);
   const [position, setPosition] = useState(getRandomPosition(rows, columns));
   const [time, setTime] = useState(Date.now());
   const [collision, setCollision] = useState(false);
