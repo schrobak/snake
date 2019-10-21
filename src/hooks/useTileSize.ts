@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { BoardSize, GameState } from "store";
+import { getBoardSize } from "store/board/selectors";
 
 import { useWindowSize } from "./useWindowSize";
 
 export const useTileSize = (): number => {
-  const [rows, columns] = useSelector<GameState, BoardSize>(({ board }) => [board.rows, board.columns]);
+  const [rows, columns] = useSelector(getBoardSize);
   const [windowWidth, windowHeight] = useWindowSize();
   const [tileSize, setTileSize] = useState(0);
 

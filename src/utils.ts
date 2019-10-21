@@ -6,7 +6,7 @@ export const getRandomPosition = (rows: number, columns: number): PositionTuple 
   Math.floor(Math.random() * rows)
 ];
 
-export const getBoardSize = (hash: string): BoardSize => {
+export const parseBoardSize = (hash: string): BoardSize => {
   const [rows = 20, columns = 30] = hash
     .substr(1)
     .split("x")

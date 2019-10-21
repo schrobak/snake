@@ -6,12 +6,12 @@ import { Snake } from "components/Snake";
 import { Stage, Board, Tile } from "components/Stage";
 import { useTileSize } from "hooks";
 import { setBoardSizeAction } from "store/board/actions";
-import { GameState, BoardSize } from "store";
-import { getBoardSize } from "utils";
+import { parseBoardSize } from "utils";
+import { getBoardSize } from "store/board/selectors";
 
 export const Game: React.FC = () => {
   const dispatch = useDispatch();
-  const [rows, columns] = useSelector<GameState, BoardSize>(({ board }) => [board.rows, board.columns]);
+  const [rows, columns] = useSelector(getBoardSize);
   const tileSize = useTileSize();
   const tiles = Array(rows * columns)
     .fill(0)
@@ -20,7 +20,7 @@ export const Game: React.FC = () => {
   useEffect(() => {
     const handleHashChange = (event: HashChangeEvent): void => {
       const url = new URL(event.newURL);
-      dispatch(setBoardSizeAction(getBoardSize(url.hash)));
+      dispatch(setBoardSizeAction(parseBoardSize(url.hash)));
     };
     window.addEventListener("hashchange", handleHashChange);
     return () => window.removeEventListener("hashchange", handleHashChange);

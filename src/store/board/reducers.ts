@@ -1,8 +1,8 @@
-import { getBoardSize } from "utils";
+import { parseBoardSize } from "utils";
 
 import { BoardActionTypes, BoardState } from "./types";
 
-const [initialRows, initialColumns] = getBoardSize(window.location.hash);
+const [initialRows, initialColumns] = parseBoardSize(window.location.hash);
 
 const initialState: BoardState = {
   rows: initialRows,

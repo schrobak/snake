@@ -4,10 +4,10 @@ import { PositionTuple } from "types";
 import { getRandomPosition } from "utils";
 
 import { useSelector } from "react-redux";
-import { BoardSize, GameState } from "store";
+import { getBoardSize } from "store/board/selectors";
 
 export const useFoodPosition = (): PositionTuple => {
-  const [rows, columns] = useSelector<GameState, BoardSize>(({ board }) => [board.rows, board.columns]);
+  const [rows, columns] = useSelector(getBoardSize);
   const [position, setPosition] = useState<PositionTuple>(getRandomPosition(rows, columns));
 
   useEffect(() => {
