@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
+import { devToolsEnhancer } from "redux-devtools-extension";
 
 import { Game } from "components/Game";
 import { GlobalStyle } from "styles";
@@ -9,7 +10,7 @@ import { rootReducer } from "store";
 
 import * as serviceWorker from "./serviceWorker";
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, devToolsEnhancer({}));
 
 const Root = () => (
   <Provider store={store}>
