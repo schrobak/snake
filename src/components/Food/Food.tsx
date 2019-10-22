@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
+
+import { useFoodPosition } from "hooks";
 import { Tile, TileProps } from "components/Stage";
-import { useFoodPosition, useTileSize } from "hooks";
+import { getTileSize } from "store/tile/selectors";
 
 export const foodKeyframes = ({ size }: TileProps) => keyframes`
   from {
@@ -26,7 +29,7 @@ const FoodTile = styled(Tile)`
 
 export const Food: React.FC = () => {
   const [x, y] = useFoodPosition();
-  const size = useTileSize();
+  const size = useSelector(getTileSize);
 
   return (
     <FoodTile

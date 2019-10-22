@@ -1,7 +1,10 @@
-import styled, { keyframes } from "styled-components";
-import { Tile, TileProps } from "components/Stage";
 import React from "react";
-import { useSnakePosition, useTileSize } from "hooks";
+import { useSelector } from "react-redux";
+import styled, { keyframes } from "styled-components";
+
+import { Tile, TileProps } from "components/Stage";
+import { useSnakePosition } from "hooks";
+import { getTileSize } from "store/tile/selectors";
 
 export const snakeHeadKeyframes = ({ size }: TileProps) => keyframes`
   from {
@@ -26,7 +29,7 @@ const SnakeHeadTile = styled(SnakeTile)`
 
 export const Snake: React.FC = () => {
   const [x, y] = useSnakePosition();
-  const size = useTileSize();
+  const size = useSelector(getTileSize);
 
   const left = size * x + x;
   const top = size * y + y;
