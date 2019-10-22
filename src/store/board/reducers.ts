@@ -1,6 +1,6 @@
 import { parseBoardSize } from "utils";
 
-import { BoardActionTypes, BoardState } from "./types";
+import { BoardActionTypes, BoardState, SET_BOARD_SIZE } from "./types";
 
 const [initialRows, initialColumns] = parseBoardSize(window.location.hash);
 
@@ -11,7 +11,7 @@ const initialState: BoardState = {
 
 export const boardReducer = (state = initialState, action: BoardActionTypes): BoardState => {
   switch (action.type) {
-    case "SET_BOARD_SIZE": {
+    case SET_BOARD_SIZE: {
       const [rows, columns] = action.boardSize;
       return {
         ...state,
