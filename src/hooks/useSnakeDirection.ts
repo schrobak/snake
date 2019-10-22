@@ -1,5 +1,7 @@
-import { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+
+import { useBoundAction } from "store";
 import { getSnakeDirection } from "store/snake/selectors";
 import { setSnakeDirectionAction } from "store/snake/actions";
 import { CheckKeyCode, SnakeDirection } from "store/snake/types";
@@ -10,14 +12,11 @@ const isKeyLeft: CheckKeyCode = code => ["ArrowLeft", "KeyA"].includes(code);
 const isKeyRight: CheckKeyCode = code => ["ArrowRight", "KeyD"].includes(code);
 
 export const useSnakeDirection = () => {
-  const dispatch = useDispatch();
   const direction = useSelector(getSnakeDirection);
-  const setSnakeDirection = useCallback((direction: SnakeDirection) => dispatch(setSnakeDirectionAction(direction)), [
-    dispatch
-  ]);
+  const setSnakeDirection = useBoundAction(setSnakeDirectionAction);
 
   useEffect(() => {
-    const handleDirectionChane = ({ code }: KeyboardEvent): void => {
+    const handleDirectionChange = ({ code }: KeyboardEvent): void => {
       if (isKeyUp(code) && ![SnakeDirection.UP, SnakeDirection.DOWN].includes(direction)) {
         setSnakeDirection(SnakeDirection.UP);
       } else if (isKeyDown(code) && ![SnakeDirection.UP, SnakeDirection.DOWN].includes(direction)) {
@@ -28,8 +27,8 @@ export const useSnakeDirection = () => {
         setSnakeDirection(SnakeDirection.RIGHT);
       }
     };
-    window.addEventListener("keydown", handleDirectionChane);
-    return () => window.removeEventListener("keydown", handleDirectionChane);
+    window.addEventListener("keydown", handleDirectionChange);
+    return () => window.removeEventListener("keydown", handleDirectionChange);
   }, [direction, setSnakeDirection]);
 
   return direction;
