@@ -1,18 +1,24 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 
-import { PositionTuple } from "types";
 import { getRandomPosition } from "utils";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getBoardSize } from "store/board/selectors";
+import { GridPosition } from "store/food/types";
+import { setFoodPositionAction } from "store/food/actions";
+import { getFoodPosition } from "store/food/selectors";
 
-export const useFoodPosition = (): PositionTuple => {
+export const useFoodPosition = (): GridPosition => {
+  const dispatch = useDispatch();
+  const setFoodPosition = useCallback((position: GridPosition) => dispatch(setFoodPositionAction(position)), [
+    dispatch
+  ]);
   const [rows, columns] = useSelector(getBoardSize);
-  const [position, setPosition] = useState<PositionTuple>(getRandomPosition(rows, columns));
+  const position = useSelector(getFoodPosition);
 
   useEffect(() => {
-    setPosition(getRandomPosition(rows, columns));
-  }, [rows, columns]);
+    setFoodPosition(getRandomPosition(rows, columns));
+  }, [setFoodPosition, rows, columns]);
 
   return position;
 };

@@ -28,15 +28,12 @@ export const Food: React.FC = () => {
   const [x, y] = useFoodPosition();
   const size = useTileSize();
 
-  const left = size * x + x;
-  const top = size * y + y;
-
   return (
     <FoodTile
       size={size}
       style={{
-        left,
-        top
+        left: size * x + x,
+        top: size * y + y
       }}
     />
   );

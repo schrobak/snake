@@ -1,7 +1,7 @@
-import { PositionTuple } from "types";
 import { BoardSize } from "store/board/types";
+import { GridPosition } from "store/food/types";
 
-export const getRandomPosition = (rows: number, columns: number): PositionTuple => [
+export const getRandomPosition = (rows: number, columns: number): GridPosition => [
   Math.floor(Math.random() * columns),
   Math.floor(Math.random() * rows)
 ];
