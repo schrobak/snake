@@ -1,35 +1,36 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getSnakeDirection } from "store/snake/selectors";
+import { setSnakeDirectionAction } from "store/snake/actions";
+import { CheckKeyCode, SnakeDirection } from "store/snake/types";
 
-export enum SnakeDirection {
-  UP,
-  DOWN,
-  LEFT,
-  RIGHT
-}
-
-const isKeyUp = (code: string): boolean => ["ArrowUp", "KeyW"].includes(code);
-const isKeyDown = (code: string): boolean => ["ArrowDown", "KeyS"].includes(code);
-const isKeyLeft = (code: string): boolean => ["ArrowLeft", "KeyA"].includes(code);
-const isKeyRight = (code: string): boolean => ["ArrowRight", "KeyD"].includes(code);
+const isKeyUp: CheckKeyCode = code => ["ArrowUp", "KeyW"].includes(code);
+const isKeyDown: CheckKeyCode = code => ["ArrowDown", "KeyS"].includes(code);
+const isKeyLeft: CheckKeyCode = code => ["ArrowLeft", "KeyA"].includes(code);
+const isKeyRight: CheckKeyCode = code => ["ArrowRight", "KeyD"].includes(code);
 
 export const useSnakeDirection = () => {
-  const [direction, setDirection] = useState(SnakeDirection.RIGHT);
+  const dispatch = useDispatch();
+  const direction = useSelector(getSnakeDirection);
+  const setSnakeDirection = useCallback((direction: SnakeDirection) => dispatch(setSnakeDirectionAction(direction)), [
+    dispatch
+  ]);
 
   useEffect(() => {
     const handleDirectionChane = ({ code }: KeyboardEvent): void => {
-      if (isKeyUp(code) && direction !== SnakeDirection.DOWN) {
-        setDirection(SnakeDirection.UP);
-      } else if (isKeyDown(code) && direction !== SnakeDirection.UP) {
-        setDirection(SnakeDirection.DOWN);
-      } else if (isKeyLeft(code) && direction !== SnakeDirection.RIGHT) {
-        setDirection(SnakeDirection.LEFT);
-      } else if (isKeyRight(code) && direction !== SnakeDirection.LEFT) {
-        setDirection(SnakeDirection.RIGHT);
+      if (isKeyUp(code) && ![SnakeDirection.UP, SnakeDirection.DOWN].includes(direction)) {
+        setSnakeDirection(SnakeDirection.UP);
+      } else if (isKeyDown(code) && ![SnakeDirection.UP, SnakeDirection.DOWN].includes(direction)) {
+        setSnakeDirection(SnakeDirection.DOWN);
+      } else if (isKeyLeft(code) && ![SnakeDirection.LEFT, SnakeDirection.RIGHT].includes(direction)) {
+        setSnakeDirection(SnakeDirection.LEFT);
+      } else if (isKeyRight(code) && ![SnakeDirection.LEFT, SnakeDirection.RIGHT].includes(direction)) {
+        setSnakeDirection(SnakeDirection.RIGHT);
       }
     };
     window.addEventListener("keydown", handleDirectionChane);
     return () => window.removeEventListener("keydown", handleDirectionChane);
-  }, [direction]);
+  }, [direction, setSnakeDirection]);
 
   return direction;
 };

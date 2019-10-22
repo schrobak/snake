@@ -1,5 +1,6 @@
 import { createSelector } from "reselect";
-import { BoardSize, BoardState, GameState } from "store";
+import { GameState } from "store";
+import { BoardSize, BoardState } from "./types";
 
 export const getBoardSize = createSelector<GameState, BoardState, BoardSize>(
   [state => state.board],

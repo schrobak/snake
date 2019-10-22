@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Food } from "components/Food";
 import { Snake } from "components/Snake";
 import { Stage, Board, Tile } from "components/Stage";
-import { useTileSize } from "hooks";
+import { useSnakeDirection, useTileSize } from "hooks";
 import { setBoardSizeAction } from "store/board/actions";
 import { parseBoardSize } from "utils";
 import { getBoardSize } from "store/board/selectors";
 
 export const Game: React.FC = () => {
+  useSnakeDirection();
   const dispatch = useDispatch();
   const [rows, columns] = useSelector(getBoardSize);
   const tileSize = useTileSize();

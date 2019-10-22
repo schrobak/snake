@@ -3,16 +3,16 @@ import { useSelector } from "react-redux";
 
 import { PositionTuple } from "types";
 import { getBoardSize } from "store/board/selectors";
+import { getSnakeDirection } from "store/snake/selectors";
 import { getRandomPosition } from "utils";
-
-import { SnakeDirection, useSnakeDirection } from "./useSnakeDirection";
+import { SnakeDirection } from "store/snake/types";
 
 export const useSnakePosition = (): PositionTuple => {
   const [rows, columns] = useSelector(getBoardSize);
   const [position, setPosition] = useState(getRandomPosition(rows, columns));
   const [time, setTime] = useState(Date.now());
   const [collision, setCollision] = useState(false);
-  const direction = useSnakeDirection();
+  const direction = useSelector(getSnakeDirection);
   const tick = useRef(time);
   const [x, y] = position;
 

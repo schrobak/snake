@@ -1,5 +1,5 @@
 import { PositionTuple } from "types";
-import { BoardSize } from "store";
+import { BoardSize } from "store/board/types";
 
 export const getRandomPosition = (rows: number, columns: number): PositionTuple => [
   Math.floor(Math.random() * columns),
