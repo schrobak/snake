@@ -1,40 +1,34 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useRef } from "react";
 
-import { Food } from "components/Food";
-import { Snake } from "components/Snake";
-import { Stage, Board, Tile } from "components/Stage";
-import { useTileSize } from "hooks";
-import { useBoundAction } from "store";
-import { setBoardSizeAction } from "store/board/actions";
-import { getBoardSize } from "store/board/selectors";
-import { parseBoardSize } from "utils";
+import { useWindowSize } from "hooks";
 
 export const Game: React.FC = () => {
-  const [rows, columns] = useSelector(getBoardSize);
-  const tileSize = useTileSize();
-  const setBoardSize = useBoundAction(setBoardSizeAction);
-
-  const tiles = Array(rows * columns)
-    .fill(0)
-    .map((_, idx) => <Tile key={idx} size={tileSize} />);
+  const [windowWidth, windowHeight] = useWindowSize();
+  const tileSize = 40;
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const handleHashChange = (event: HashChangeEvent): void => {
-      const url = new URL(event.newURL);
-      setBoardSize(parseBoardSize(url.hash));
-    };
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, [setBoardSize]);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext("2d");
+    if (!context) return;
 
-  return (
-    <Stage>
-      <Board rows={rows} columns={columns} tileSize={tileSize}>
-        {tiles}
-        <Food />
-        <Snake />
-      </Board>
-    </Stage>
-  );
+    const spacing = 2;
+    const rows = Math.floor(windowHeight / (tileSize + spacing));
+    const columns = Math.floor(windowWidth / (tileSize + spacing));
+    const top = Math.floor((windowHeight - rows * (tileSize + spacing)) / 2);
+    const left = Math.floor((windowWidth - columns * (tileSize + spacing)) / 2);
+
+    context.fillStyle = "rgba(0, 0, 0, 0.15)";
+
+    for (let x = 0; x < columns; x++) {
+      for (let y = 0; y < rows; y++) {
+        const x1 = x * tileSize + x * spacing + left;
+        const y1 = y * tileSize + y * spacing + top;
+        context.fillRect(x1, y1, tileSize, tileSize);
+      }
+    }
+  }, [windowHeight, windowWidth, tileSize]);
+
+  return <canvas ref={canvasRef} width={windowWidth} height={windowHeight} />;
 };
